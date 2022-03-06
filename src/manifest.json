@@ -10,5 +10,15 @@
   "browser_action": {
     "default_popup": "popup.html"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://app.slack.com/*"
+      ],
+      "js": [
+        "content.ts"
+      ]
+    }
+  ],
   "manifest_version": 2
 }
