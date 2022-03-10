@@ -29,15 +29,17 @@ export function liveTransformTitle(transform: (title: string) => string): () => 
   return () => observer.disconnect();
 }
 
-/**
- * Creates a function that can be called to set the document title
- */
-export function overrideTitle() {
-  let title = document.title;
-  liveTransformTitle(() => title);
+let _setTitle: ((title: string) => void) | undefined;
 
-  return (newTitle: string) => {
-    title = newTitle;
-    document.title = title;
-  };
+export function setTitle(title: string) {
+  if (!_setTitle) {
+    let title = document.title;
+    liveTransformTitle(() => title);
+
+    _setTitle = (newTitle: string) => {
+      title = newTitle;
+      document.title = title;
+    }
+  }
+  _setTitle(title);
 }

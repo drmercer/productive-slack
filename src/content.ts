@@ -1,5 +1,3 @@
-import { overrideTitle } from './util/contentscripts/title';
-
-const setTitle = overrideTitle();
+import { setTitle } from './util/contentscripts/title';
 
 setTitle('Slack (but productive!)');
