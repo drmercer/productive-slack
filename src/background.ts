@@ -1,3 +1,1 @@
-setInterval(() => {
-  console.log("Hello bagels!");
-}, 1000);
+console.log("Hello world!");
