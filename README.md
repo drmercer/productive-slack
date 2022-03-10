@@ -16,7 +16,7 @@ A Web Extension to make Slack less distracting.
 
 # Project Goals
 
-* Enable Slack users to be intentional about where their attention goes, even if their workplace as a whole doesn't want to be.
+* Enable Slack users to be intentional about where their attention goes.
 
 ## Non-goals
 
