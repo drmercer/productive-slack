@@ -1,3 +1,5 @@
+import { debouncedListener } from "./listener";
+
 export interface WindowFocusListenerOptions {
   focus?: () => void
   blur?: () => void
@@ -7,32 +9,13 @@ export interface WindowFocusListenerOptions {
 const DefaultDebounceTimeMs = 1000;
 
 export function debouncedWindowFocusListener(opts: WindowFocusListenerOptions) {
-  let focusDebounceHandle = 0;
-  let blurDebounceHandle = 0;
   const debounceTime = opts.debounceTimeMs || DefaultDebounceTimeMs;
 
-  const focusListener = () => {
-    clearTimeout(focusDebounceHandle);
-    clearTimeout(blurDebounceHandle);
-    const callback = opts.focus;
-    if (callback) {
-      focusDebounceHandle = setTimeout(callback, debounceTime);
-    }
-  };
-  const blurListener = () => {
-    clearTimeout(focusDebounceHandle);
-    clearTimeout(blurDebounceHandle);
-    const callback = opts.blur;
-    if (callback) {
-      blurDebounceHandle = setTimeout(callback, debounceTime);
-    }
-  };
-
-  window.addEventListener('focus', focusListener);
-  window.addEventListener('blur', blurListener);
+  const teardownFocus = opts.focus && debouncedListener(debounceTime, 'focus', opts.focus, 'blur');
+  const teardownBlur = opts.blur && debouncedListener(debounceTime, 'blur', opts.blur, 'focus');
 
   return () => {
-    window.removeEventListener('focus', focusListener);
-    window.removeEventListener('blur', blurListener);
+    teardownFocus();
+    teardownBlur();
   };
 }
