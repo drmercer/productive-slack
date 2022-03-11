@@ -1,3 +1,5 @@
+import { log } from "../log";
+
 export function freezeIcon() {
   const head = document.head;
 
@@ -12,12 +14,12 @@ export function freezeIcon() {
       iconUrl = iconEl.href;
     }
     if (iconEl.href !== iconUrl) {
-      console.info("favicon url changed")
+      log.info("favicon url changed")
       iconEl.href = iconUrl;
     }
   });
   observer.observe(head, { subtree: true, childList: true });
-  console.info("Observing favicon for changes");
+  log.info("Observing favicon for changes");
 
   return () => observer.disconnect();
 }
