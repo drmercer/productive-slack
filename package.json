@@ -10,6 +10,8 @@
   },
   "devDependencies": {
     "@parcel/config-webextension": "^2.3.2",
+    "@types/react": "^17.0.40",
+    "@types/react-dom": "^17.0.13",
     "parcel": "^2.3.2"
   },
   "targets": {
@@ -20,5 +22,9 @@
       }
     },
     "webext-prod": {}
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }
