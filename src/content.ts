@@ -3,6 +3,10 @@ import { freezeIcon } from './util/contentscripts/favicon';
 import { debouncedWindowFocusListener } from './util/windowfocus';
 import { log } from './util/log';
 
+window.onerror = (event, _source, _lineno, _colno, error) => {
+  log.error('Uncaught error:', error);
+}
+
 setTitle('Slack (but productive!)');
 
 const ukraineFavicon = 'https://a.slack-edge.com/5f35cf0/img/icons/favicon-32-ua.png';
