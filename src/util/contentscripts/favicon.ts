@@ -5,7 +5,7 @@ export function freezeIcon(url?: string) {
 
   let iconUrl: string | undefined = url;
 
-  const observer = new MutationObserver(() => {
+  const checkIconUrl = () => {
     const iconEl: HTMLLinkElement = head.querySelector('head > link[rel~="icon"]')
     if (!iconEl) {
       return;
@@ -17,8 +17,12 @@ export function freezeIcon(url?: string) {
       log.info("favicon url changed")
       iconEl.href = iconUrl;
     }
-  });
+  };
+
+  const observer = new MutationObserver(checkIconUrl);
   observer.observe(head, { subtree: true, childList: true });
+
+  checkIconUrl();
   log.info("Observing favicon for changes");
 
   return () => observer.disconnect();
