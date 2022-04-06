@@ -5,7 +5,9 @@ import { log } from './util/log';
 
 setTitle('Slack (but productive!)');
 
-freezeIcon();
+const ukraineFavicon = 'https://a.slack-edge.com/5f35cf0/img/icons/favicon-32-ua.png';
+
+freezeIcon(ukraineFavicon);
 
 // Collapse sections when window is unfocused for 10 seconds
 debouncedWindowFocusListener({
