@@ -1,3 +1,4 @@
+import { beginningOfDay } from "../util/date";
 import { Predicate } from "../util/function";
 import { includesProperties } from "../util/object";
 import { PEvent } from "./event";
@@ -59,4 +60,9 @@ export function computeFocusedStats(events: PEvent[]): FocusStats {
     includesProperties({ focused: true }),
     includesProperties({ focused: false }),
   ))
+}
+
+export function getTodaysEvents(events: PEvent[]): PEvent[] {
+  const today = beginningOfDay();
+  return events.filter(e => e.timestamp > today);
 }
