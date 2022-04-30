@@ -6,7 +6,6 @@ export function useAsyncGetter<T>(asyncGet: () => Promise<NonNullable<T>>): [dat
 
   useEffect(() => {
     asyncGet().then((data: T) => {
-      console.log('loaded', { data })
       setData(data)
       setError(undefined)
     }, error => {
