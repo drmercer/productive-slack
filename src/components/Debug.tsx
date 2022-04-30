@@ -1,17 +1,13 @@
-import { getDurations, getDurationMagnitudeMs } from "../store/analytics";
+import { getFocusedDurations, getDurationMagnitudeMs } from "../store/analytics";
 import { getEvents, nukeAllEvents } from "../store/store";
-import { includesProperties } from "../util/object";
 import { useTime, useAsyncGetter } from "../util/react/hooks";
+import { niceDurationString } from "../util/time";
 import { PopupApp } from "./PopupApp";
 
 export const Debug = () => {
   const time = useTime();
   const [events, , refresh] = useAsyncGetter(getEvents);
-  const durations = events && getDurations(
-    events,
-    includesProperties({ focused: true }),
-    includesProperties({ focused: false }),
-  )
+  const durations = events && getFocusedDurations(events);
 
   return <div>
     <div>
@@ -26,7 +22,7 @@ export const Debug = () => {
             const d = durations[di];
             const isStart = d?.start === e;
             const isEnd = d?.end === e;
-            const magnitude = d ? Math.round(getDurationMagnitudeMs(d) / 1000) + 's' : '';
+            const magnitude = d ? niceDurationString(getDurationMagnitudeMs(d)) : '';
             return <li style={{
               color: isStart ? 'red' : isEnd ? 'green' : '',
             }} key={String(i)}>
@@ -37,7 +33,7 @@ export const Debug = () => {
         <p>Durations:</p>
         <ul>
           {durations?.map((d, i) => {
-            return <li key={String(i)}>{JSON.stringify(d)}</li>
+            return <li key={String(i)}>{niceDurationString(getDurationMagnitudeMs(d))} ({JSON.stringify(d)})</li>
           })}
         </ul>
         <p>

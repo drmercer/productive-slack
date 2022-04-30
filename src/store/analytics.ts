@@ -1,7 +1,7 @@
 import { beginningOfDay } from "../util/date";
 import { Predicate } from "../util/function";
 import { includesProperties } from "../util/object";
-import { PEvent } from "./event";
+import { FocusPEvent, PEvent } from "./event";
 
 export interface Duration<T> {
   start: T
@@ -49,17 +49,16 @@ export function getDurationStats(durations: Duration<PEvent>[]): DurationStats {
   }
 }
 
-interface FocusStats {
-  count: number;
-  totalMs: number;
+export function computeFocusedStats(events: PEvent[]): DurationStats {
+  return getDurationStats(getFocusedDurations(events))
 }
 
-export function computeFocusedStats(events: PEvent[]): FocusStats {
-  return getDurationStats(getDurations(
+export function getFocusedDurations(events: PEvent[]): Duration<FocusPEvent>[] {
+  return getDurations(
     events.filter(e => e.type === 'focus'),
     includesProperties({ focused: true }),
-    includesProperties({ focused: false }),
-  ))
+    includesProperties({ focused: false })
+  );
 }
 
 export function getTodaysEvents(events: PEvent[]): PEvent[] {
