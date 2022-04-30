@@ -38,35 +38,35 @@ debouncedWindowFocusListener({
 
 watchFocusState();
 function watchFocusState() {
-  async function focused() {
+  let isFocused = document.hasFocus();
+  recordFocusEvent(isFocused);
+
+  async function recordFocusEvent(isFocused: boolean) {
     await recordEvent({
       type: 'focus',
       timestamp: new Date(),
-      focused: true,
+      focused: isFocused,
     })
-    log.info('recorded focus event')
+    log.info('recorded focus event', { isFocused })
+  }
+
+  async function focused() {
+    if (!isFocused) {
+      isFocused = true;
+      await recordFocusEvent(isFocused);
+    }
   }
 
   async function blurred() {
-    await recordEvent({
-      type: 'focus',
-      timestamp: new Date(),
-      focused: false,
-    })
-    log.info('recorded blur event')
+    if (isFocused) {
+      isFocused = false;
+      await recordFocusEvent(isFocused);
+    }
   }
 
   debouncedWindowFocusListener({
-    debounceTimeMs: 5_000,
+    debounceTimeMs: 2_000,
     focus: focused,
     blur: blurred,
   })
-
-  setTimeout(() => {
-    if (document.hasFocus) {
-      focused();
-    } else {
-      blurred();
-    }
-  }, 1000)
 }
