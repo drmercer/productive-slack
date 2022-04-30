@@ -1,3 +1,4 @@
+import { log } from './../util/log';
 import browser from 'webextension-polyfill';
 import { SerializedEvent, serializeEvent, Event, deserializeEvent } from './event';
 
@@ -26,10 +27,17 @@ async function setStoreDataKey<K extends (keyof StoreData & string)>(key: K, val
 export async function recordEvent(e: Event): Promise<void> {
   const events = await getStoreDataKey('events');
   events.push(serializeEvent(e));
-  setStoreDataKey('events', events);
+  await setStoreDataKey('events', events);
 }
 
 export async function getEvents(): Promise<Event[]> {
   const serialized = await getStoreDataKey('events');
   return serialized.map(deserializeEvent);
+}
+
+export async function nukeAllEvents(): Promise<void> {
+  if (confirm("Nuke all events?")) {
+    await setStoreDataKey('events', []);
+    log.info("Nuked all events");
+  }
 }

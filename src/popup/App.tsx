@@ -1,18 +1,6 @@
-import { useEffect, useState } from "react";
 import { computeFocusedStats } from "../store/analytics";
 import { getEvents } from "../store/store";
 import { useAsyncGetter } from "../util/react/hooks";
-
-function useTime() {
-  const [time, setTime] = useState(new Date());
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(new Date());
-    });
-    return () => clearInterval(interval);
-  })
-  return time;
-}
 
 export const App = () => {
   const [events, error] = useAsyncGetter(getEvents);
