@@ -2,6 +2,7 @@ import { setTitle } from './util/contentscripts/title';
 import { freezeIcon } from './util/contentscripts/favicon';
 import { debouncedWindowFocusListener } from './util/windowfocus';
 import { log } from './util/log';
+import { recordEvent } from './store/store';
 
 window.onerror = (event, _source, _lineno, _colno, error) => {
   log.error('Uncaught error:', error);
@@ -32,5 +33,40 @@ debouncedWindowFocusListener({
         '.p-channel_sidebar__section_heading:not(.p-channel_sidebar__section_heading--collapsed)' +
         ' .p-channel_sidebar__section_heading_expand_container')
       .forEach(el => el.click())
-  }
+  },
 })
+
+watchFocusState();
+function watchFocusState() {
+  async function focused() {
+    await recordEvent({
+      type: 'focus',
+      timestamp: new Date(),
+      focused: true,
+    })
+    log.info('recorded focus event')
+  }
+
+  async function blurred() {
+    await recordEvent({
+      type: 'focus',
+      timestamp: new Date(),
+      focused: false,
+    })
+    log.info('recorded blur event')
+  }
+
+  debouncedWindowFocusListener({
+    debounceTimeMs: 5_000,
+    focus: focused,
+    blur: blurred,
+  })
+
+  setTimeout(() => {
+    if (document.hasFocus) {
+      focused();
+    } else {
+      blurred();
+    }
+  }, 1000)
+}
