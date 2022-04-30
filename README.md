@@ -9,6 +9,7 @@ A Web Extension to make Slack less distracting.
 * [X] Override the page title to not indicate unreads
 * [x] Override the page icon to not indicate unreads ([issue #2](https://github.com/drmercer/productive-slack/issues/2))
 * [x] Collapse sections in sidebar when window is unfocused
+* [x] Include a PWA manifest to enable a native-like experience while still being able to use this web extension.
 * [ ] User settings to enable/disable/configure features
 * [ ] Basic personal analytics ([issue #3](https://github.com/drmercer/productive-slack/issues/3))
 * [ ] Batch notifications on a regular interval instead of delivering them immediately ([issue #4](https://github.com/drmercer/productive-slack/issues/4))

@@ -1,0 +1,11 @@
+{
+  "//": "Served from danmercer.net (and duplicated in that repo) but included in this repo for reference",
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Slack",
+  "short_name": "Slack",
+  "start_url": "https://app.slack.com/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "Slack, but more productivity friendly. github.com/drmercer/productive-slack",
+  "icons": []
+}
