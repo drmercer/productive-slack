@@ -1,11 +1,11 @@
 import { log } from './../util/log';
 import browser from 'webextension-polyfill';
-import { SerializedEvent, serializeEvent, Event, deserializeEvent } from './event';
+import { SerializedPEvent, serializeEvent, PEvent, deserializeEvent } from './event';
 
 const store = browser.storage.local;
 
 export interface StoreData {
-  events: SerializedEvent[]
+  events: SerializedPEvent[]
 }
 
 const defaults: StoreData = {
@@ -24,13 +24,13 @@ async function setStoreDataKey<K extends (keyof StoreData & string)>(key: K, val
   });
 }
 
-export async function recordEvent(e: Event): Promise<void> {
+export async function recordEvent(e: PEvent): Promise<void> {
   const events = await getStoreDataKey('events');
   events.push(serializeEvent(e));
   await setStoreDataKey('events', events);
 }
 
-export async function getEvents(): Promise<Event[]> {
+export async function getEvents(): Promise<PEvent[]> {
   const serialized = await getStoreDataKey('events');
   return serialized.map(deserializeEvent);
 }

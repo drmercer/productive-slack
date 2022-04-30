@@ -1,19 +1,23 @@
 import { assertNever } from '../util/assert';
 
-export type SerializedFocusEvent = [ts: number, type: 'f', focused: boolean]
+export type SerializedFocusPEvent = [ts: number, type: 'f', focused: boolean]
 
-export type SerializedEvent =
-  | SerializedFocusEvent
+export type SerializedPEvent =
+  | SerializedFocusPEvent
 
-export interface FocusEvent {
+export interface FocusPEvent {
   type: 'focus'
   timestamp: Date
   focused: boolean
 }
-export type Event =
-  | FocusEvent
 
-export function serializeEvent(e: Event): SerializedEvent {
+/**
+ * Named "P" after "Productive Slack", to differentiate from global JS "Event"
+ */
+export type PEvent =
+  | FocusPEvent
+
+export function serializeEvent(e: PEvent): SerializedPEvent {
   switch (e.type) {
     case 'focus':
       return [e.timestamp.getTime(), 'f', e.focused];
@@ -22,7 +26,7 @@ export function serializeEvent(e: Event): SerializedEvent {
   }
 }
 
-export function deserializeEvent(e: SerializedEvent): Event {
+export function deserializeEvent(e: SerializedPEvent): PEvent {
   const [ts, type, ...payload] = e;
   switch (type) {
     case 'f':

@@ -1,6 +1,6 @@
 import { Predicate } from "../util/function";
 import { includesProperties } from "../util/object";
-import { Event } from "./event";
+import { PEvent } from "./event";
 
 export interface Duration<T> {
   start: T
@@ -27,7 +27,7 @@ export function getDurations<T>(events: T[], isStart: Predicate<T>, isEnd: Predi
   return durations;
 }
 
-export function getDurationMagnitudeMs(d: Duration<Event>): number {
+export function getDurationMagnitudeMs(d: Duration<PEvent>): number {
   return d.end.timestamp.getTime() - d.start.timestamp.getTime();
 }
 
@@ -37,7 +37,7 @@ export interface DurationStats {
   avgMs: number
 }
 
-export function getDurationStats(durations: Duration<Event>[]): DurationStats {
+export function getDurationStats(durations: Duration<PEvent>[]): DurationStats {
   const count = durations.length;
   const totalMs = durations.reduce((acc, d) => acc + getDurationMagnitudeMs(d), 0);
   const avgMs = totalMs / count;
@@ -53,7 +53,7 @@ interface FocusStats {
   totalMs: number;
 }
 
-export function computeFocusedStats(events: Event[]): FocusStats {
+export function computeFocusedStats(events: PEvent[]): FocusStats {
   return getDurationStats(getDurations(
     events.filter(e => e.type === 'focus'),
     includesProperties({ focused: true }),
