@@ -1,4 +1,4 @@
-import { App } from "../popup/App";
+import { PopupApp } from "./PopupApp";
 import "../css/popup.css";
 import { useAsyncGetter, useTime } from "../util/react/hooks";
 import { getEvents, nukeAllEvents } from "../store/store";
@@ -48,7 +48,7 @@ export const OptionsApp = () => {
     </div>
     <h1>Popup preview (static - does not refresh)</h1>
     <div className="OptionsApp-popup-preview">
-      <App></App>
+      <PopupApp></PopupApp>
     </div>
   </div>
 }

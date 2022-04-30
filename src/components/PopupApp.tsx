@@ -2,7 +2,7 @@ import { computeFocusedStats, getTodaysEvents } from "../store/analytics";
 import { getEvents } from "../store/store";
 import { useAsyncGetter } from "../util/react/hooks";
 
-export const App = () => {
+export const PopupApp = () => {
   const [events, error] = useAsyncGetter(getEvents);
 
   const filteredEvents = events && getTodaysEvents(events);
