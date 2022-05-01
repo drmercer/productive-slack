@@ -15,4 +15,9 @@ export const log = Object.assign((...args: unknown[]) => {
   debug(...args: unknown[]) {
     console.debug(prefix, ...args);
   },
+  observeUncaughtErrors(w: Window = window) {
+    w.onerror = (_event, _source, _lineno, _colno, error) => {
+      log.error('Uncaught error:', error);
+    }
+  }
 })

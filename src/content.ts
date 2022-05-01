@@ -4,9 +4,7 @@ import { debouncedWindowFocusListener } from './util/windowfocus';
 import { log } from './util/log';
 import { recordEvent } from './store/store';
 
-window.onerror = (event, _source, _lineno, _colno, error) => {
-  log.error('Uncaught error:', error);
-}
+log.observeUncaughtErrors();
 
 function addPwaManifest() {
   const webmanifestLink = document.createElement('link');
